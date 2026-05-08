@@ -42,7 +42,7 @@
 	url = https://github.com/pulp-platform/riscv-dbg.git
 [submodule "corev_apu/rv_plic"]
 	path = corev_apu/rv_plic
-	url = https://github.com/pulp-platform/rv_plic.git
+	url = https://github.com/2317891476/rv_plic.git
 [submodule "corev_apu/fpga/src/apb_timer"]
 	path = corev_apu/fpga/src/apb_timer
 	url = https://github.com/pulp-platform/apb_timer.git
