@@ -61,6 +61,9 @@ module ariane_verilog_wrap
   output [$size(ariane_axi::req_t)-1:0]             axi_req_o,
   input  [$size(ariane_axi::resp_t)-1:0]            axi_resp_i
 `endif
+`ifdef P3_RTL_DEBUG
+  , output logic [15:0] p3_ariane_debug_bus
+`endif
  );
 
 // assign bitvector to packed struct and vice versa
@@ -124,6 +127,17 @@ module ariane_verilog_wrap
   // reset gate this
   assign rst_n = wake_up_cnt_q[$high(wake_up_cnt_q)] & reset_l;
 
+`ifdef P3_RTL_DEBUG
+  assign p3_ariane_debug_bus = {wake_up_cnt_q[15],
+                                rst_n,
+                                spc_grst_l,
+                                reset_l,
+                                debug_req_i,
+                                time_irq_i,
+                                ipi_i,
+                                |irq_i,
+                                wake_up_cnt_q[7:0]};
+`endif
 
   /////////////////////////////
   // synchronizers
