@@ -78,9 +78,11 @@ module wt_l15_adapter import ariane_pkg::*; import wt_cache_pkg::*; #(
 
 // request path
 icache_req_t icache_data;
+(* mark_debug = "true" *) (* keep = "true" *)
 logic icache_data_full, icache_data_empty;
 
 dcache_req_t dcache_data;
+(* mark_debug = "true" *) (* keep = "true" *)
 logic dcache_data_full, dcache_data_empty;
 
 logic [1:0] arb_req, arb_ack;
@@ -108,8 +110,14 @@ l15_rtrn_t rtrn_fifo_data;
   // logic [L15_TLB_CSM_WIDTH-1:0]      l15_req_o.l15_csm_data;
 
 
-  assign icache_data_ack_o  = icache_data_req_i & ~icache_data_full;
-  assign dcache_data_ack_o  = dcache_data_req_i & ~dcache_data_full;
+  (* mark_debug = "true" *) (* keep = "true" *)
+  logic icache_data_ack_d;
+  (* mark_debug = "true" *) (* keep = "true" *)
+  logic dcache_data_ack_d;
+  assign icache_data_ack_d  = icache_data_req_i & ~icache_data_full;
+  assign dcache_data_ack_d  = dcache_data_req_i & ~dcache_data_full;
+  assign icache_data_ack_o  = icache_data_ack_d;
+  assign dcache_data_ack_o  = dcache_data_ack_d;
 
   // data mux
   assign l15_req_o.l15_nc                   = (arb_idx)        ? dcache_data.nc    : icache_data.nc;

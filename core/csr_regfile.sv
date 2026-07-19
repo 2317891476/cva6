@@ -249,6 +249,14 @@ module csr_regfile import ariane_pkg::*; #(
                 riscv::CSR_MINSTRETH:          if (riscv::XLEN == 32) csr_rdata = instret_q[63:32]; else read_access_exception = 1'b1;
                 riscv::CSR_CYCLE:              csr_rdata = cycle_q[riscv::XLEN-1:0];
                 riscv::CSR_CYCLEH:             if (riscv::XLEN == 32) csr_rdata = cycle_q[63:32]; else read_access_exception = 1'b1;
+`ifdef P3_TIME_CSR_DIV128
+                // P3's CLINT timebase is the 30 MHz core clock divided by
+                // 128.  Expose the same frequency through the architectural
+                // TIME CSR so S-mode rdtime does not require an illegal-CSR
+                // trap and OpenSBI software emulation on every read.
+                riscv::CSR_TIME:               csr_rdata = cycle_q >> 7;
+                riscv::CSR_TIMEH:              if (riscv::XLEN == 32) csr_rdata = {7'b0, cycle_q[63:39]}; else read_access_exception = 1'b1;
+`endif
                 riscv::CSR_INSTRET:            csr_rdata = instret_q[riscv::XLEN-1:0];
                 riscv::CSR_INSTRETH:           if (riscv::XLEN == 32) csr_rdata = instret_q[63:32]; else read_access_exception = 1'b1;
                 riscv::CSR_ML1_ICACHE_MISS,
