@@ -85,10 +85,13 @@ dcache_req_t dcache_data;
 (* mark_debug = "true" *) (* keep = "true" *)
 logic dcache_data_full, dcache_data_empty;
 
+(* mark_debug = "true" *) (* keep = "true" *)
 logic [1:0] arb_req, arb_ack;
+(* mark_debug = "true" *) (* keep = "true" *)
 logic       arb_idx;
 
 // return path
+(* mark_debug = "true" *) (* keep = "true" *)
 logic rtrn_fifo_empty, rtrn_fifo_full, rtrn_fifo_pop;
 l15_rtrn_t rtrn_fifo_data;
 
